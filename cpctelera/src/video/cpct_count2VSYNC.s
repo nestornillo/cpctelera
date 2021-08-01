@@ -28,14 +28,14 @@
 ;; C Definition:
 ;;    <u16> <cpct_count2VSYNC> ()
 ;;
-;; Return Value:
+;; Return Value (Assembly calls, return HL=number of iterations):
 ;;    <u16> - Total number of iterations done of the wait loop until VSYNC was active.
 ;;
 ;; Assembly call:
 ;;    > call cpct_count2VSYNC_asm
 ;;
 ;; Details:
-;;    This function implements a wait loop that exists only when VSYNC signal 
+;;    This function implements a wait loop that exits only when VSYNC signal 
 ;; from the CRTC is detected. It works in the same way as <cpct_waitVSYNC>, but
 ;; with one addition: it keeps counting the number of iterations of the waiting
 ;; loop. This count is returned when VSYNC is detected and the function ends.
@@ -52,7 +52,7 @@
 ;; waiting for VSYNC. If you wanted to know the total amount of CPU cycles or 
 ;; microseconds, you can do this calculations,
 ;; (start code)
-;;    availableMicroSecs = 14 + 9 * cpct_count2VSYNC(); 
+;;    availableMicroSecs = 10 * cpct_count2VSYNC() - 3; 
 ;;    availableCycles    =  4 * availableMicroSecs;
 ;; (end)
 ;;   Take into account that VSYNC occurs with a frequency of *19968 microseconds* 
@@ -72,7 +72,7 @@
 ;; -------------------------------------
 ;; Best  |      17       |     68
 ;; -------------------------------------
-;; Any   |    9 + 9L     |  36 + 36L
+;; Any   |    7 + 10L    |  28 + 40L
 ;; -------------------------------------
 ;; (end code)
 ;;    L=Number of times loop is executed
