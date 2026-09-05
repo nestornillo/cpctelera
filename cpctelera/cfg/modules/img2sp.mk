@@ -119,7 +119,7 @@ endef
 #
 # $(1): Pixel Format { sprites, zgtiles, screen }
 #
-# Updates variable I2S_FOLD
+# Updates variable I2S_FMT
 #
 define IMG2SP_SET_IMG_FORMAT
 	# Convert selected format into options
@@ -268,7 +268,7 @@ define IMG2SP_CONVERT_BIN
 	@$(call PRINT,$(PROJNAME)," - '$(I2S_S)' > '$(I2S_S2)'")
 	@$(call PRINT,$(PROJNAME)," - '$(I2S_H)' > '$(I2S_H2)'")
 	@$(call PRINT,$(PROJNAME)," - '$(I2S_B)' > '$(I2S_B2)'")
-	@if [ "$(I2S_FOLD)" != "" ]; then \
+	@if [ "$(I2S_FOLD)" != "" ] && [ "$(I2S_B)" != "$(I2S_B2)" ]; then \
 	   mv "$(I2S_S)" "$(I2S_S2)"; \
 	   mv "$(I2S_H)" "$(I2S_H2)"; \
 	   mv "$(I2S_B)" "$(I2S_B2)"; \
