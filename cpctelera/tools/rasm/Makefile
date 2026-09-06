@@ -1,5 +1,18 @@
 CC=clang
-EXEC=rasm.exe
+EXEC=rasm
+
+# Detect windows machines and change executable name to rasm.exe
+OS ?= $(shell echo %OS% 2>/dev/null)
+ifeq ($(OS),Windows_NT)
+   EXEC=rasm.exe
+else
+   SHELL_OS = $(shell uname -s 2>/dev/null)
+   ifneq ($(filter CYGWIN%,$(SHELL_OS)),)
+      EXEC=rasm.exe
+   else ifneq ($(filter MINGW%,$(SHELL_OS)),)
+      EXEC=rasm.exe
+   endif
+endif
 
 CFLAGS=-lm  -march=native -o $(EXEC)
 CFLAGS_OPT = $(CFLAGS) -O2 -Wpointer-sign
@@ -154,5 +167,5 @@ clean:
 	rm -f $(APU_OBJ) $(LZSA_OBJ) $(SALVADOR_OBJ) $(Z80_MASTER_OBJ)
 
 cleanall:
-	rm -f $(APU_OBJ) $(LZSA_OBJ) $(SALVADOR_OBJ) $(Z80_MASTER_OBJ)
+	rm -f $(APU_OBJ) $(LZSA_OBJ) $(SALVADOR_OBJ) $(Z80_MASTER_OBJ) $(EXEC)
 
